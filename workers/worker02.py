@@ -21,7 +21,7 @@ def fetch_from_file_queue(db):
     """
     statement = f'''
         select * from file_queue where worker = '{NAME}'
-            order by priority desc limit 1;
+            order by priority asc limit 1;
     '''
     print(statement)
     try:
