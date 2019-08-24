@@ -17,6 +17,10 @@ def get_data_from_source(db):
         where not exists (
             select 1 from file_process_log b 
             where a.dm_fileid = b.dm_fileid
+        )
+        and not exists(
+            select 1 from file_queue c
+            where a.dm_fileid = c.dm_fileid
         );
     '''
     try:
