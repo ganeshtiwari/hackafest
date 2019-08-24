@@ -5,8 +5,6 @@ import time
 from helpers.db import DB
 
 
-
-
 def get_files(db, name):
     # db = DB('pipeline')
     output = None

@@ -3,8 +3,7 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/createtables.py" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/populate_tables.py" dialect="SQLite" />
-    <file url="file://$PROJECT_DIR$/test.py" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/workers/boss.py" dialect="SQLite" />
-    <file url="file://$PROJECT_DIR$/workers/worker.py" dialect="SQLite" />
+    <file url="file://$PROJECT_DIR$/workers/worker01.py" dialect="SQLite" />
   </component>
 </project>

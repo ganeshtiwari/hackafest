@@ -1,10 +1,14 @@
 import sys
 import time
-
+import configparser
+import ast
+import os
 sys.path.append('..')
 from helpers.db import DB
 
 workers = ['worker01', 'worker02', 'worker03', 'worker04']
+
+parser = configparser.ConfigParser()
 
 
 def get_data_from_source(db):
@@ -37,11 +41,40 @@ def run_boss(db, worker_index):
     files = get_data_from_source(db)
     for file in files:
         file = list(file)
-        file.append('')
-        file.append(workers[worker_index])
+        client_id = file[1]
+        # Try to find the config for this client
+        client_config_path = f'../config/client{client_id}.ini'
+        if os.path.exists(client_config_path):
+            # print('Entered')
+            parser.read(client_config_path)
+            try:
+                priority = parser.get('PRIORITY', 'level')
+                file.append(int(priority))
+            except Exception as e:
+                file.append('')
+                print(e)
+            try:
+                worker = parser.get('WORKER', 'name')
+                file.append(worker)
+            except Exception as e:
+                file.append(workers[worker_index])
+                worker_index = (worker_index + 1) % len(workers)
+                print(e)
+        else:
+            file.append('')
+            file.append(workers[worker_index])
+            worker_index = (worker_index + 1) % len(workers)
+        print(file)
         dispatch_to_queue(db, tuple(file))
-        worker_index = (worker_index + 1) % len(workers)
+
     return worker_index
+
+
+def check_for_client_config(client_id):
+    path = f'../config/client{client_id}.ini'
+    if os.path.exists(path):
+        return path
+    return
 
 
 def main():
